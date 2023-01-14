@@ -77,22 +77,7 @@ class SafeSetApproximation:
 
         # identify candidate sets through acceleration structure
         candidates = self.polygons
-        # candidates = list()
-        # max_dist = np.inf
-        # for i, a in enumerate(self.acc):
-        #     # if a.contains(point):
-        #     d = a.distance(point)
-        #     if d <= max_dist:
-        #         max_dist = d
-        #         if np.isclose(d, 0.):
-        #             candidates.append(self.polygons[i])
-        #         else:
-        #             if len(candidates) == 0:
-        #                 candidates.append(self.polygons[i])
-        #             else:
-        #                 candidates[0] = self.polygons[i]
 
-        # do accurate checks
         dist = -np.inf
         d = 0
         self._multi_dist = False

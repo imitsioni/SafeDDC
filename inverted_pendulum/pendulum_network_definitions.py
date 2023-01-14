@@ -30,34 +30,6 @@ class PendulumLSTM(nn.Module):
         return out, hidden
 
 
-# class PendulumFC(nn.Module):
-#     def __init__(self, input_size, seq_len, output_size, batch_size=1):
-#         super(PendulumFC, self).__init__()
-#         self.activation = nn.ReLU()
-#         self.input_size = input_size
-#         self.output_size = output_size
-#         self.seq_len = seq_len
-#         self.batch_size = batch_size
-#
-#         self.fc_in = nn.Linear(self.batch_size * self.input_size * self.seq_len,
-#                                self.batch_size * self.input_size * self.seq_len)
-#         self.fc2 = nn.Linear(self.batch_size * self.input_size * self.seq_len,
-#                              self.batch_size * self.input_size * self.seq_len)
-#         # self.fc3 = nn.Linear(self.batch_size*self.input_size * self.seq_len, self.batch_size*self.input_size * self.seq_len)
-#         self.fc_out = nn.Linear(self.batch_size * self.input_size * self.seq_len,
-#                                 self.batch_size * self.output_size * self.seq_len)
-#
-#     def forward(self, x):
-#         x = torch.flatten(x)
-#         output = self.fc_in(                x)
-#         output = self.activation(output)
-#         output = self.fc2(output)
-#         # output = self.activation(output)
-#         # output = self.fc3(output)
-#         # output = self.activation(output)
-#         output = self.fc_out(output)
-#         return output
-
 class PendulumFC(nn.Module):
     def __init__(self, input_size, seq_len, output_size, batch_size=1):
         super(PendulumFC, self).__init__()
@@ -248,68 +220,3 @@ class PendulumVariationalAutoEncoderMultistep(nn.Module):
         eps = torch.randn_like(std)
         return eps.mul(std).add_(mu)
 
-
-
-# class PendulumVariationalEncoderMultistep(nn.Module):
-#     def __init__(self, prediction_horizon, block_length):
-#         super(PendulumVariationalEncoderMultistep, self).__init__()
-#         self.activation = nn.Tanh()
-#         self.fc1 = nn.Linear(in_features=2 * (prediction_horizon + 1) * block_length,
-#                              out_features=2 * (prediction_horizon + 1) * block_length - 10)
-#         self.fc2 = nn.Linear(in_features=2 * (prediction_horizon + 1) * block_length - 10,
-#                              out_features=2 * (prediction_horizon + 1) * block_length - 20)
-#         self.fc3 = nn.Linear(in_features=2 * (prediction_horizon + 1) * block_length - 20,
-#                              out_features=2 * (prediction_horizon + 1) * block_length - 30)
-#         self.fcout_mu = nn.Linear(in_features=2 * (prediction_horizon + 1) * block_length - 30,
-#                                   out_features=2)
-#         self.fcout_sigma = nn.Linear(in_features=2 * (prediction_horizon + 1) * block_length - 30,
-#                                      out_features=2)
-#
-#     def forward(self, x1, x2):
-#         x = torch.cat((x1, x2))
-#         x = x.flatten()
-#         x = self.activation(self.fc1(x))
-#         x = self.activation(self.fc2(x))
-#         x = self.activation(self.fc3(x))
-#         x_mu = self.fcout_mu(x)
-#         x_logvar = self.fcout_sigma(x)
-#         return x_mu, x_logvar
-#
-#
-# class PendulumVariationalDecoderMultistep(nn.Module):
-#     def __init__(self, prediction_horizon, block_length):
-#         super(PendulumVariationalDecoderMultistep, self).__init__()
-#         self.activation = nn.Tanh()
-#         self.fcin = nn.Linear(in_features=2,
-#                               out_features=2 * (prediction_horizon + 1) * block_length - 30)
-#         self.fc1 = nn.Linear(in_features=2 * (prediction_horizon + 1) * block_length - 30,
-#                              out_features=2 * (prediction_horizon + 1) * block_length - 20)
-#         self.fc2 = nn.Linear(in_features=2 * (prediction_horizon + 1) * block_length - 20,
-#                              out_features=2 * (prediction_horizon + 1) * block_length - 10)
-#         self.fc3 = nn.Linear(in_features=2 * (prediction_horizon + 1) * block_length - 10,
-#                              out_features=2 * (prediction_horizon + 1) * block_length)
-#
-#     def forward(self, encoding):
-#         x = self.activation(self.fcin(encoding))
-#         x = self.activation(self.fc1(x))
-#         x = self.activation(self.fc2(x))
-#         x = self.fc3(x)
-#         return x
-#
-#
-# class PendulumVariationalAutoEncoderMultistep(nn.Module):
-#     def __init__(self, PendulumVariationalEncoderMultistep, PendulumVariationalDecoderMultistep):
-#         super(PendulumVariationalAutoEncoderMultistep, self).__init__()
-#         self.encoder = PendulumVariationalEncoderMultistep
-#         self.decoder = PendulumVariationalDecoderMultistep
-#
-#     def forward(self, current_block, next_block):
-#         mu, logvar = self.encoder(current_block, next_block)
-#         z = self.reparametrize(mu, logvar)
-#         decode = self.decoder(z)
-#         return decode, mu, logvar
-#
-#     def reparametrize(self, mu, logvar):
-#         std = torch.exp(0.5 * logvar)
-#         eps = torch.randn_like(std)
-#         return eps.mul(std).add_(mu)

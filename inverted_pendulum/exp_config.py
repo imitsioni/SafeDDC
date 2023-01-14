@@ -1,10 +1,5 @@
 """
-This is the greatest file of all and it is used to set up parameters for the "experiments" with pendulum_mpc.py.
-If we end up automating stuff and running it with bash scripts, I will transfer this functionality to an argsparser.
-Until then, I think this is more intuitive and results in fewer code-blocks.
-
-Sincerely yours,
-My code is shit and I like over-complicating things in order to make them simple-Ioanna
+This file is used to set up parameters for the experiments with pendulum_mpc.py.
 """
 
 import numpy as np
@@ -18,7 +13,7 @@ TH_D_MIN = -10.0  # Theta dot min (pendulum's velocity)
 SIM_STPS = 150  # Simulation steps
 TRLS = 10  # Number of MPC trials
 FIX_INTIAL_ST = False  # Set the flag to True will use hardcoded values as initial states for the simulation
-# Hardcoded initial states
+# Hardcoded initial states for comparisons
 INIT_STATES = np.array([[-1.99515118, 3.5697508, -1.23121458, 4.70902953, 1.73190895, 1.71519266,
                          -1.90229281, -2.40907181, -3.7114882, -1.39460226],
                         [0.13083611, 0.44138971, -0.03106526, -0.12031505, -0.10615971, 0.12072505,

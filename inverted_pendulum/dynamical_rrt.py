@@ -154,8 +154,6 @@ class DynamicalRRT:
         near_point = self.rtree.nearest(state_tuple, 1, objects='raw')
         near_point = next(near_point)
         min_index = self.tree_dict[near_point]
-        # distance_list = [self.get_distance(state, node.state) for node in self.node_list]
-        # min_index = distance_list.index(min(distance_list))
         return min_index
 
     def get_near_nodes(self, state: np.ndarray, num=50) -> list:
@@ -170,8 +168,8 @@ class DynamicalRRT:
         if new_fig and fig1 is None:
             fig1, ax1 = plt.subplots()
         elif fig1 is None:
-            fig1 = gcf()
-            ax1 = gca()
+            fig1 = plt.gcf()
+            ax1 = plt.gca()
 
         if node_select == -1:
             # for stopping simulation with the esc key.
@@ -238,11 +236,7 @@ class DynamicalRRT:
                     near_node.path = node.path
                     near_node.input = node.input
                     near_node.path_length = node.path_length
-                # if node_cost > near_cost:
-                #     node.parent = near_node.parent
-                #     node.path = near_node.path
-                #     node.input = near_node.input
-                #     node.path_length = near_node.path_length
+            
 
     def get_reachable_nodes(self, node_id: int):
         reach_set = self.get_reachable_set(np.array(self.node_list[node_id].state))
@@ -287,27 +281,7 @@ class DynamicalRRT:
                 near_node.input = ctrl_input[:, i]
                 near_node.path_length = new_node.path_length
 
-    # def rewire_deepc(self, node_id: int, tolerance=0.05):
-    #     node = self.node_list[node_id]
-    #     node_cost = self.get_cost(node_id)
-    #     near_nodes = self.get_near_nodes(node.state)
-    #     new_state, state_path = self.discrete_dynamics(sample_node.state, random_input)
-    #     for near_node_id in near_nodes:
-    #         if near_node_id == node_id:
-    #             continue
-    #         near_node = self.node_list[near_node_id]
-    #         near_cost = self.get_cost(near_node_id)
-    #         if get_distance(node.state, near_node.state) < tolerance:
-    #             if node_cost < near_cost:
-    #                 near_node.parent = node.parent
-    #                 near_node.path = node.path
-    #                 near_node.input = node.input
-    #                 near_node.path_length = node.path_length
-    #             elif node_cost > near_cost:
-    #                 node.parent = near_node.parent
-    #                 node.path = near_node.path
-    #                 node.input = near_node.input
-    #                 node.path_length = near_node.path_length
+
 
     def get_cost(self, node_id: int):
         if node_id == 0 or node_id == -1:
@@ -404,39 +378,8 @@ class DynamicalRRT:
             ctrl = self.node_list[near_nodes[0][0]].input
         else:
             ctrl = np.array([[0]])
-        # n_near = len(near_nodes[0])
-        # input_mat = np.zeros((self.input_space_multistep.ndim, n_near))
-        # state_mat = np.zeros((self.state_space.ndim, n_near))
-        #
-        # for i in range(n_near):
-        #     idx = near_nodes[0][i]
-        #     if idx == 0:
-        #         continue
-        #     state_mat[:, i] = self.node_list[idx].state.reshape((self.state_space.ndim,))
-        #     input_mat[:, i] = self.node_list[idx].input.reshape((self.input_space_multistep.ndim,))
-        # combo = np.linalg.pinv(state_mat) @ state
-        # ctrl = input_mat @ combo
+
         if ctrl is None:
             ctrl = np.array([[0]])
         return ctrl.reshape((ctrl.size,1))
 
-
-"""
-    def rand_steer(self, from_node: Node.state, to_node: Node.state) -> Node:
-        velocity = random.choice([-1, 1])
-        steering = random.uniform(-np.pi/6,np.pi/6)
-        nSteps = random.randrange(1,6,1)
-        tau = 0.1
-        res = 0.01
-        pos = from_node.state
-        new_node = self.Node(pos, [])
-        new_node.path.append(pos)
-
-        for i in range(nSteps):
-            for t in np.arange(0, tau, res):
-                pos[1] += velocity * res * np.cos(pos[3])
-                pos[2] += velocity * res * np.sin(pos[3])
-                pos[3] += steering * velocity * res
-                new_node.path.append(pos)
-        new_node.state = pos
-"""

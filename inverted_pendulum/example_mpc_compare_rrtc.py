@@ -295,20 +295,3 @@ if trials_per_config <= 10:
     plt.legend()
     plt.show()
 
-
-
-
-# a = plt.legend()
-# # plt.gcf().set_size_inches(10, 7)
-# plt.savefig("data/mpc_data/mpc_compare_datasets_" + str(first_d_id) + "_until_" + str(first_d_id + trials) + ".svg")
-# plt.savefig("data/mpc_data/mpc_compare_datasets_" + str(first_d_id) + "_until_" + str(first_d_id + trials) + ".png")
-
-
-# plt.show()
-#
-# #save the legend separately
-# a2 = a.figure
-# a2.canvas.draw()
-# bbox = a.get_window_extent().transformed(a2.dpi_scale_trans.inverted())
-# a2.savefig("data/mpc_data/legend_mpc_datasets_" + str(first_d_id) + "_until_" + str(first_d_id + trials)+".png",
-#            dpi="figure", bbox_inches=bbox)

@@ -1,11 +1,7 @@
-import time
-
-import matplotlib.colors
 import matplotlib.pyplot as plt
-import matplotlib.patches as patch
-from dynamics_library import PendulumCartContinuous, SampleAndHold, PendulumCartBroken
+from dynamics_library import  SampleAndHold, PendulumCartBroken
 from dynamical_rrt import DynamicalRRT
-from zonotope_lib import Zonotope, Box, plot_zonotope
+from zonotope_lib import Box
 import numpy as np
 import gurobipy as gp
 from gurobipy import GRB
